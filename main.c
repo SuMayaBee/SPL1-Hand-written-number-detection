@@ -2,11 +2,16 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "util/img.h"
 #include "neural/activations.h"
 #include "neural/nn.h"
 #include "matrix/matrix.h"
 #include "matrix/ops.h"
+
+#define MAX_LINE_LENGTH 1024
+#define ROWS 28
+#define COLS 28
 
 int main() {
 	srand(time(NULL));
@@ -36,8 +41,37 @@ int main() {
 	 network_free(net);
 
 
+	 //=======================================================================================================
+	
+    int image[ROWS][COLS];
+    FILE *file = fopen("image.txt", "r");
 
-	return 0;
+    if (file == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (!fscanf(file, "%d, ", &image[i][j])) {
+               break;
+            }
+        }
+    }
+
+    fclose(file);
+
+    // Print the array to verify it was read correctly
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf("%d ", image[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+
+
 
 
 }
